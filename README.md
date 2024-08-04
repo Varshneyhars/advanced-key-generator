@@ -37,29 +37,18 @@ $ yarn add advanced-key-generator
 
 ## Usage
 
-The `advanced-key-generator` library can generate API key/access tokens by utilizing several generation methods, such as `string`, `bytes`, `base32`, `base62`, `uuidv4`, and `uuidv5`. The `string` method is used by default.
+The `advanced-key-generator` library can generate API key/access tokens by utilizing several generation methods, such as `string`, `bytes`, `base32`, `base62`, `uuidv4`, and `uuidv5`. Additionally, it provides functions to verify the validity of API keys and check if they have expired.
 
 Importing:  
 
 ```javascript
 // CommonJS Import
-const { generateApiKey } = require('advanced-key-generator');
+const { generateApiKey, verifyKey, isExpired } = require('advanced-key-generator');
 // OR
-const generateApiKey = require('advanced-key-generator').default;
+const { default: generateApiKey, verifyKey, isExpired } = require('advanced-key-generator');
 
 // ES6 Import
-import { generateApiKey } from 'advanced-key-generator';
-// OR
-import generateApiKey from 'advanced-key-generator';
-```
-
-Example:
-
-```javascript
-import generateApiKey from 'advanced-key-generator';
-
-// Generate the API key using default method 'string'.
-console.log(generateApiKey()); // ⇨ 'q_EaTiX+xbBXLyO05.+zDXjI+Qi_X0v'
+import { generateApiKey, verifyKey, isExpired } from 'advanced-key-generator';
 ```
 
 ### Generation Methods
@@ -72,6 +61,70 @@ console.log(generateApiKey()); // ⇨ 'q_EaTiX+xbBXLyO05.+zDXjI+Qi_X0v'
 | `base62` | Creates an API key using Base62 encoding                                 |
 | `uuidv4` | Creates an API key/access token using random UUID Version 4 generation   |
 | `uuidv5` | Creates an API key/access token using random UUID Version 5 generation   |
+
+### Options
+
+See the [Options](#options) section for detailed descriptions of available options for each generation method.
+
+### Example Usage
+
+**Generate an API Key**
+
+```javascript
+import { generateApiKey } from 'advanced-key-generator';
+
+// Generate the API key using default method 'string'.
+console.log(generateApiKey()); // ⇨ 'q_EaTiX+xbBXLyO05.+zDXjI+Qi_X0v'
+
+// Generate an API key with expiration time.
+const apiKey = generateApiKey({ method: 'string', length: 20, expiration: 3600 }); // 1 hour
+console.log(`Generated API Key: ${apiKey}`);
+```
+
+**Verify an API Key**
+
+```javascript
+import { verifyKey } from 'advanced-key-generator';
+
+// Verify the generated API key.
+const isValid = verifyKey(apiKey, 'string');
+console.log(`Is API Key Valid? ${isValid}`);
+```
+
+**Check if an API Key is Expired**
+
+```javascript
+import { isExpired } from 'advanced-key-generator';
+
+// Check if the API key has expired.
+const expired = isExpired(apiKey);
+console.log(`Is API Key Expired? ${expired}`);
+```
+
+### New Functions
+
+#### `verifyKey(apiKey, method)`
+
+Verifies if the provided API key matches the expected format for the given generation method.
+
+| Parameter  | Type   | Description                                                      |
+| ---------- | ------ | ---------------------------------------------------------------- |
+| `apiKey`   | string | The API key to verify                                           |
+| `method`   | string | The generation method used to create the key                     |
+
+Returns `true` if the API key matches the expected format, otherwise `false`.
+
+#### `isExpired(apiKey)`
+
+Checks if the provided API key has expired based on its stored expiration date.
+
+| Parameter  | Type   | Description                                                      |
+| ---------- | ------ | ---------------------------------------------------------------- |
+| `apiKey`   | string | The API key to check for expiration                             |
+
+Returns `true` if the API key has expired, otherwise `false`.
+
+--- 
 
 ## Options
 
