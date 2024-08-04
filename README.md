@@ -320,17 +320,14 @@ See the [CHANGELOG](./CHANGELOG.md) for detailed descriptions of changes and upd
 This software is licensed under the [MIT License](./LICENSE).
 
 [npm-url]: https://www.npmjs.com/package/advanced-key-generator
-[version-image]: https://img.shields.io/github/package-json/v/your-repo/advanced-key-generator/main?label=version&style=flat-square
-[tests-url]: https://github.com/your-repo/advanced-key-generator/actions/workflows/test.yml
-[tests-image]: https://github.com/your-repo/advanced-key-generator/actions/workflows/test.yml/badge.svg?branch=main
-[coverage-url]: https://github.com/your-repo/advanced-key-generator/actions/workflows/coverage.yml
-[coverage-image]: https://github.com/your-repo/advanced-key-generator/actions/workflows/coverage.yml/badge.svg?branch=main
-[travis-url]: https://travis-ci.com/your-repo/advanced-key-generator
-[travis-image]: https://travis-ci.com/your-repo/advanced-key-generator.svg?branch=main
-[coveralls-url]: https://coveralls.io/github/your-repo/advanced-key-generator
-[coveralls-image]: https://coveralls.io/repos/github/your-repo/advanced-key-generator/badge.svg?branch=main
-[codefactor-url]: https://www.codefactor.io/repository/github/your-repo/advanced-key-generator/overview/main
-[codefactor-image]: https://www.codefactor.io/repository/github/your-repo/advanced-key-generator/badge/main
+[version-image]: https://img.shields.io/github/package-json/v/Varshneyhars/advanced-key-generator/main?label=version&style=flat-square
+[tests-url]: https://github.com/Varshneyhars/advanced-key-generator/actions/workflows/test.yml
+[tests-image]: https://github.com/Varshneyhars/advanced-key-generator/actions/workflows/test.yml/badge.svg?branch=main
+[coverage-url]: https://github.com/Varshneyhars/advanced-key-generator/actions/workflows/coverage.yml
+[coverage-image]: https://github.com/Varshneyhars/advanced-key-generator/actions/workflows/coverage.yml/badge.svg?branch=main
+[codefactor-url]: https://www.codefactor.io/repository/github/Varshneyhars/advanced-key-generator/overview/main
+[codefactor-image]: https://www.codefactor.io/repository/github/Varshneyhars/advanced-key-generator/badge/main
+
 ```
 
 This README provides detailed examples for each method, ensuring that users can easily understand how to use each feature of the `advanced-key-generator` library. Make sure to replace placeholder links and
