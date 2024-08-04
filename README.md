@@ -1,4 +1,4 @@
-# generate-api-key
+# advanced-key-generator
 
 [![GitHub package.json version (branch)][version-image]][npm-url]
 [![unit tests][tests-image]][tests-url]
@@ -7,7 +7,7 @@
 [![Coverage Status][coveralls-image]][coveralls-url]
 [![CodeFactor][codefactor-image]][codefactor-url]  
 
-`generate-api-key` is a library for generating random API (Application Programming Interface) keys or access tokens. By using this library, a Node.js backend service can generate API keys or access tokens, then issue them to users and/or other services that require access to the capabilities and resources provided by the API service.
+`advanced-key-generator` is a library for generating random API (Application Programming Interface) keys or access tokens. By using this library, a Node.js backend service can generate API keys or access tokens, then issue them to users and/or other services that require access to the capabilities and resources provided by the API service.
 
 ## Table of contents
 
@@ -30,37 +30,37 @@
 Using NPM:
 
 ```bash
-$ npm install generate-api-key
+$ npm install advanced-key-generator
 ```
 
 Using Yarn:
 
 ```bash
-$ yarn add generate-api-key
+$ yarn add advanced-key-generator
 ```
 
 ## Usage
 
-The `generate-api-key` library can generate API key/access tokens by utilizing several generation methods, such as `string`, `bytes`, `base32`, `base62`, `uuidv4`, and `uuidv5`. The `string` method is used by default.
+The `advanced-key-generator` library can generate API key/access tokens by utilizing several generation methods, such as `string`, `bytes`, `base32`, `base62`, `uuidv4`, and `uuidv5`. The `string` method is used by default.
 
 Importing:  
 
 ```javascript
 // CommonJS Import
-const { generateApiKey } = require('generate-api-key');
+const { generateApiKey } = require('advanced-key-generator');
 // OR
-const generateApiKey = require('generate-api-key').default;
+const generateApiKey = require('advanced-key-generator').default;
 
 // ES6 Import
-import { generateApiKey } from 'generate-api-key';
+import { generateApiKey } from 'advanced-key-generator';
 // OR
-import generateApiKey from 'generate-api-key';
+import generateApiKey from 'advanced-key-generator';
 ```
 
 Example:
 
 ```javascript
-import generateApiKey from 'generate-api-key';
+import generateApiKey from 'advanced-key-generator';
 
 // Generate the API key using default method 'string'.
 console.log(generateApiKey()); // ⇨ 'q_EaTiX+xbBXLyO05.+zDXjI+Qi_X0v'
@@ -96,7 +96,7 @@ Creates an API key/access token using random string generation.
 Examples:  
 
 ```javascript
-import generateApiKey from 'generate-api-key';
+import generateApiKey from 'advanced-key-generator';
 
 // Generate the API key using default method 'string'.
 console.log(generateApiKey()); // ⇨ 'q_EaTiX+xbBXLyO05.+zDXjI+Qi_X0v'
@@ -146,7 +146,7 @@ Creates an API key/access token using random bytes.
 Examples:  
 
 ```javascript
-import generateApiKey from 'generate-api-key';
+import generateApiKey from 'advanced-key-generator';
 
 // Provide the generation method.
 console.log(generateApiKey({ method: 'bytes' })); // ⇨ '6f31bfc3717d63e7bd21'
@@ -185,7 +185,7 @@ Creates an API key/access token using a random UUID and converting it into a [Do
 Examples:  
 
 ```javascript
-import generateApiKey from 'generate-api-key';
+import generateApiKey from 'advanced-key-generator';
 
 // Provide the generation method.
 console.log(generateApiKey({ method: 'base32' })); // ⇨ '2NOLH5I-43EEK7A-R6YRK3I-BRCIQNQ'
@@ -220,7 +220,7 @@ Creates an API key using Base62 encoding.
 Examples:  
 
 ```javascript
-import generateApiKey from 'generate-api-key';
+import generateApiKey from 'advanced-key-generator';
 
 // Provide the generation method.
 console.log(generateApiKey({ method: 'base62' })); // ⇨ 'ZKc19O5EnfgyZthv'
@@ -249,7 +249,7 @@ Creates an API key/access token using random UUID Version 4 generation.
 Examples:  
 
 ```javascript
-import generateApiKey from 'generate-api-key';
+import generateApiKey from 'advanced-key-generator';
 
 // Provide the generation method.
 console.log(generateApiKey({ method: 'uuidv4' })); // ⇨ 'a1b2c3d4-e5f6-1234-5678-9abcdef01234'
@@ -285,7 +285,7 @@ Creates an API key/access token using random UUID Version 5 generation.
 Examples:  
 
 ```javascript
-import generateApiKey from 'generate-api-key';
+import generateApiKey from 'advanced-key-generator';
 
 // Provide the generation method.
 console.log(generateApiKey({ method: 'uuidv5', name: 'example-name', namespace: '123e4567-e89b-12d3-a456-426614174000' })); // ⇨ '9b8a8090-ccf1-5d08-bd3c-bf0e946f24dc'
@@ -319,20 +319,20 @@ See the [CHANGELOG](./CHANGELOG.md) for detailed descriptions of changes and upd
 
 This software is licensed under the [MIT License](./LICENSE).
 
-[npm-url]: https://www.npmjs.com/package/generate-api-key
-[version-image]: https://img.shields.io/github/package-json/v/your-repo/generate-api-key/main?label=version&style=flat-square
-[tests-url]: https://github.com/your-repo/generate-api-key/actions/workflows/test.yml
-[tests-image]: https://github.com/your-repo/generate-api-key/actions/workflows/test.yml/badge.svg?branch=main
-[coverage-url]: https://github.com/your-repo/generate-api-key/actions/workflows/coverage.yml
-[coverage-image]: https://github.com/your-repo/generate-api-key/actions/workflows/coverage.yml/badge.svg?branch=main
-[travis-url]: https://travis-ci.com/your-repo/generate-api-key
-[travis-image]: https://travis-ci.com/your-repo/generate-api-key.svg?branch=main
-[coveralls-url]: https://coveralls.io/github/your-repo/generate-api-key
-[coveralls-image]: https://coveralls.io/repos/github/your-repo/generate-api-key/badge.svg?branch=main
-[codefactor-url]: https://www.codefactor.io/repository/github/your-repo/generate-api-key/overview/main
-[codefactor-image]: https://www.codefactor.io/repository/github/your-repo/generate-api-key/badge/main
+[npm-url]: https://www.npmjs.com/package/advanced-key-generator
+[version-image]: https://img.shields.io/github/package-json/v/your-repo/advanced-key-generator/main?label=version&style=flat-square
+[tests-url]: https://github.com/your-repo/advanced-key-generator/actions/workflows/test.yml
+[tests-image]: https://github.com/your-repo/advanced-key-generator/actions/workflows/test.yml/badge.svg?branch=main
+[coverage-url]: https://github.com/your-repo/advanced-key-generator/actions/workflows/coverage.yml
+[coverage-image]: https://github.com/your-repo/advanced-key-generator/actions/workflows/coverage.yml/badge.svg?branch=main
+[travis-url]: https://travis-ci.com/your-repo/advanced-key-generator
+[travis-image]: https://travis-ci.com/your-repo/advanced-key-generator.svg?branch=main
+[coveralls-url]: https://coveralls.io/github/your-repo/advanced-key-generator
+[coveralls-image]: https://coveralls.io/repos/github/your-repo/advanced-key-generator/badge.svg?branch=main
+[codefactor-url]: https://www.codefactor.io/repository/github/your-repo/advanced-key-generator/overview/main
+[codefactor-image]: https://www.codefactor.io/repository/github/your-repo/advanced-key-generator/badge/main
 ```
 
-This README provides detailed examples for each method, ensuring that users can easily understand how to use each feature of the `generate-api-key` library. Make sure to replace placeholder links and
+This README provides detailed examples for each method, ensuring that users can easily understand how to use each feature of the `advanced-key-generator` library. Make sure to replace placeholder links and
 
 images with actual URLs relevant to your project. If you need more help or have other questions, feel free to ask!
