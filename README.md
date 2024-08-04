@@ -17,9 +17,11 @@
   - [`base62` Method](#base62-method)
   - [`uuidv4` Method](#uuidv4-method)
   - [`uuidv5` Method](#uuidv5-method)
+  - [`sha256` Method](#sha256-method)
+  - [`sha512` Method](#sha512-method)
 - [Security](#security)
 - [Change Log](#change-log)
-- [License](#license)  
+- [License](#license)
 
 ## Installation
 
@@ -37,7 +39,7 @@ $ yarn add advanced-key-generator
 
 ## Usage
 
-The `advanced-key-generator` library can generate API key/access tokens by utilizing several generation methods, such as `string`, `bytes`, `base32`, `base62`, `uuidv4`, and `uuidv5`. Additionally, it provides functions to verify the validity of API keys and check if they have expired.
+The `advanced-key-generator` library can generate API key/access tokens by utilizing several generation methods, such as `string`, `bytes`, `base32`, `base62`, `uuidv4`, `uuidv5`, `sha256`, and `sha512`. Additionally, it provides functions to verify the validity of API keys and check if they have expired.
 
 Importing:  
 
@@ -61,6 +63,8 @@ import { generateApiKey, verifyKey, isExpired } from 'advanced-key-generator';
 | `base62` | Creates an API key using Base62 encoding                                 |
 | `uuidv4` | Creates an API key/access token using random UUID Version 4 generation   |
 | `uuidv5` | Creates an API key/access token using random UUID Version 5 generation   |
+| `sha256` | Creates an API key/access token using SHA-256 hash generation            |
+| `sha512` | Creates an API key/access token using SHA-512 hash generation            |
 
 ### Options
 
@@ -204,13 +208,13 @@ console.log(generateApiKey({ method: 'bytes' })); // ⇨ '6f31bfc3717d63e7bd21'
 console.log(generateApiKey({ method: 'bytes', length: 12 })); // ⇨ '47a8dcbc79f6'
 
 // Create an API key with a length between a certain range.
-console.log(generateApiKey({ method: 'bytes', min: 12, max: 25 })); // ⇨ 'fae27c801b5092bc'
+console.log(generateApiKey({ method: 'bytes', min: 12, max: 25 })); // ⇨'fae27c801b5092bc'
 
 // Create an API key with a prefix.
 console.log(generateApiKey({ method: 'bytes', prefix: 'test_app' })); // ⇨ 'test_app.8daaa6b26c79030db1a1448261'
 
 // Create a batch (certain amount) of API keys.
-console.log(generateApiKey({ method: 'bytes', batch: 5 })); 
+console.log(generateApiKey({ method: 'bytes', batch: 5 }));
 // [
 //   '0d5a87f007aae092a6',
 //   '96a62b4438d82645506b',
@@ -222,151 +226,228 @@ console.log(generateApiKey({ method: 'bytes', batch: 5 }));
 
 ### `base32` Method  
 
-Creates an API key/access token using a random UUID and converting it into a [Douglas Crockford Base32](https://en.wikipedia.org/wiki/Base32#Crockford's_Base32) encoded string.  
+Creates an API key/access token using a UUID encoded in [Douglas Crockford Base32](https://en.wikipedia.org/wiki/Base32#Crockford's_Base32).
 
-| Name     | Default Value |  Description                                                      |
-| ---------| ------------- | ----------------------------------------------------------------- | 
-| `method` | `base32`      | To use the `base32` generation method                             |
-| `dashes` | `true`        | Add dashes (`-`) to the API key or not                            |
-| `prefix` | `undefined`   | A string prefix for the API key, followed by a period (`.`)       |  
-| `batch`  | `undefined`   | The number of API keys to generate                                |
+| Name     | Default Value | Description                                                     |
+| -------- | ------------- | --------------------------------------------------------------- |
+| `method` | `base32`      | To use the `base32` generation method                           |
+| `dashes` | `true`        | Include dashes (`-`) in the API key                             |
+| `prefix` | `undefined`   | A string prefix for the API key, followed by a period (`.`)     |
+| `batch`  | `undefined`   | The number of API keys to generate                              |
 
-Examples:  
+Examples:
 
 ```javascript
 import generateApiKey from 'advanced-key-generator';
 
 // Provide the generation method.
-console.log(generateApiKey({ method: 'base32' })); // ⇨ '2NOLH5I-43EEK7A-R6YRK3I-BRCIQNQ'
+console.log(generateApiKey({ method: 'base32' })); // ⇨ 'F3C5L7Q0G1P8J2W6-B2V3H9D4X7R1M5T8'
 
-// Create an API key without the dashes.
-console.log(generateApiKey({ method: 'base32', dashes: false })); // ⇨ '2NOLH5I43EEK7AR6YRK3IBRCIQNQ'
+// Generate an API key without dashes.
+console.log(generateApiKey({ method: 'base32', dashes: false })); // ⇨ 'F3C5L7Q0G1P8J2W6B2V3H9D4X7R1M5T8'
 
 // Create an API key with a prefix.
-console.log(generateApiKey({ method: 'base32', prefix: 'prefix_' })); // ⇨ 'prefix_.2NOLH5I-43EEK7A-R6YRK3I-BRCIQNQ'
+console.log(generateApiKey({ method: 'base32', prefix: 'test_app' })); // ⇨ 'test_app.F3C5L7Q0G1P8J2W6-B2V3H9D4X7R1M5T8'
 
 // Create a batch (certain amount) of API keys.
-console.log(generateApiKey({ method: 'base32', batch: 5 })); 
+console.log(generateApiKey({ method: 'base32', batch: 5 }));
 // [
-//   'A4AEMJ4-JBQ4-FAHQ-B65S-DG4WBW7',
-//   'A4AEMJ4-JBQ4-FAHQ-B65S-DG4WBW7',
-//   'A4AEMJ4-JBQ4-FAHQ-B65S-DG4WBW7',
-//   'A4AEMJ4-JBQ4-FAHQ-B65S-DG4WBW7',
-//   'A4AEMJ4-JBQ4-FAHQ-B65S-DG4WBW7'
+//   'X1C3L5Q2G1P8J7W6-B2V3H9D4X7R1M5T8',
+//   'F4C5L7Q0G1P8J2W6-B2V3H9D4X7R1M5T9',
+//   'F3C5L7Q0G1P8J2W6-B2V3H9D4X7R1M5T0',
+//   'F2C5L7Q0G1P8J2W6-B2V3H9D4X7R1M5T1',
+//   'F1C5L7Q0G1P8J2W6-B2V3H9D4X7R1M5T2'
 // ]
 ```
 
 ### `base62` Method  
 
-Creates an API key using Base62 encoding.  
+Creates an API key using Base62 encoding.
 
-| Name     | Default Value |  Description                                                      |
-| ---------| ------------- | ----------------------------------------------------------------- | 
-| `method` | `base62`      | To use the `base62` generation method                             |
-| `prefix` | `undefined`   | A string prefix for the API key, followed by a period (`.`)       |  
-| `batch`  | `undefined`   | The number of API keys to generate                                |
+| Name     | Default Value | Description                                                     |
+| -------- | ------------- | --------------------------------------------------------------- |
+| `method` | `base62`      | To use the `base62` generation method                           |
+| `length` | `20`          | The length of the API key                                       |
+| `prefix` | `undefined`   | A string prefix for the API key, followed by a period (`.`)     |
+| `batch`  | `undefined`   | The number of API keys to generate                              |
 
-Examples:  
+Examples:
 
 ```javascript
 import generateApiKey from 'advanced-key-generator';
 
 // Provide the generation method.
-console.log(generateApiKey({ method: 'base62' })); // ⇨ 'ZKc19O5EnfgyZthv'
+console.log(generateApiKey({ method: 'base62' })); // ⇨ 'aX7Q8W6N3Z5R4Y2B1J9V0M8P2T3G4L1'
 
-console.log(generateApiKey({ method: 'base62', prefix: 'key_' })); // ⇨ 'key_PzI7tKy90Fl4wZsc'
+// Generate an API key with a specific length.
+console.log(generateApiKey({ method: 'base62', length: 15 })); // ⇨ 'aX7Q8W6N3Z5R4Y2'
 
-console.log(generateApiKey({ method: 'base62', batch: 3 })); 
+// Create an API key with a prefix.
+console.log(generateApiKey({ method: 'base62', prefix: 'test_app' })); // ⇨ 'test_app.aX7Q8W6N3Z5R4Y2B1J9V0M8P2T3G4L1'
+
+// Create a batch (certain amount) of API keys.
+console.log(generateApiKey({ method: 'base62', batch: 5 }));
 // [
-//   '5Z39PFA3Ws4r6Uqz',
-//   'AaHs9vKrT2m5gLtz',
-//   '2P7k6O8h1oZsJwWq'
+//   'aX7Q8W6N3Z5R4Y2B1J9V0M8P2T3G4L1',
+//   'bY7Q8W6N3Z5R4Y2B1J9V0M8P2T3G4L2',
+//   'cZ7Q8W6N3Z5R4Y2B1J9V0M8P2T3G4L3',
+//   'dA7Q8W6N3Z5R4Y2B1J9V0M8P2T3G4L4',
+//   'eB7Q8W6N3Z5R4Y2B1J9V0M8P2T3G4L5'
 // ]
 ```
 
 ### `uuidv4` Method  
 
-Creates an API key/access token using random UUID Version 4 generation.  
+Creates an API key/access token using random UUID Version 4 generation.
 
-| Name     | Default Value |  Description                                                      |
-| ---------| ------------- | ----------------------------------------------------------------- | 
-| `method` | `uuidv4`      | To use the `uuidv4` generation method                             |
-| `dashes` | `true`        | Add dashes (`-`) to the API key or not                            |
-| `prefix` | `undefined`   | A string prefix for the API key, followed by a period (`.`)       |  
-| `batch`  | `undefined`   | The number of API keys to generate                                |
+| Name     | Default Value | Description                                                     |
+| -------- | ------------- | --------------------------------------------------------------- |
+| `method` | `uuidv4`      | To use the `uuidv4` generation method                           |
+| `prefix` | `undefined`   | A string prefix for the API key, followed by a period (`.`)     |
+| `batch`  | `undefined`   | The number of API keys to generate                              |
 
-Examples:  
+Examples:
 
 ```javascript
 import generateApiKey from 'advanced-key-generator';
 
 // Provide the generation method.
-console.log(generateApiKey({ method: 'uuidv4' })); // ⇨ 'a1b2c3d4-e5f6-1234-5678-9abcdef01234'
-
-// Create an API key without the dashes.
-console.log(generateApiKey({ method: 'uuidv4', dashes: false })); // ⇨ 'a1b2c3d4e5f6123456789abcdef01234'
+console.log(generateApiKey({ method: 'uuidv4' })); // ⇨ '6fbb2e1e-2b3c-453b-9673-9ad3e5b8e8b0'
 
 // Create an API key with a prefix.
-console.log(generateApiKey({ method: 'uuidv4', prefix: 'uuid_' })); // ⇨ 'uuid_a1b2c3d4-e5f6-1234-5678-9abcdef01234'
+console.log(generateApiKey({ method: 'uuidv4', prefix: 'test_app' })); // ⇨ 'test_app.6fbb2e1e-2b3c-453b-9673-9ad3e5b8e8b0'
 
 // Create a batch (certain amount) of API keys.
-console.log(generateApiKey({ method: 'uuidv4', batch: 3 })); 
+console.log(generateApiKey({ method: 'uuidv4', batch: 5 }));
 // [
-//   'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-//   'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-//   'f47ac10b-58cc-4372-a567-0e02b2c3d479'
+//   '6fbb2e1e-2b3c-453b-9673-9ad3e5b8e8b0',
+//   '7fbb2e1e-2b3c-453b-9673-9ad3e5b8e8b1',
+//   '8fbb2e1e-2b3c-453b-9673-9ad3e5b8e8b2',
+//   '9fbb2e1e-2b3c-453b-9673-9ad3e5b8e8b3',
+//   '0fbb2e1e-2b3c-453b-9673-9ad3e5b8e8b4'
 // ]
 ```
 
 ### `uuidv5` Method  
 
-Creates an API key/access token using random UUID Version 5 generation.  
+Creates an API key/access token using random UUID Version 5 generation.
 
-| Name         | Default Value |  Description                                                      |
-| ------------ | ------------- | ----------------------------------------------------------------- | 
-| `method`     | `uuidv5`      | To use the `uuidv5` generation method                             |
-| `name`       | `undefined`   | A unique name to be used for UUID Version 5 generation            |
-| `namespace`  | `undefined`   | The UUID namespace used for generation                            |
-| `dashes`     | `true`        | Add dashes (`-`) to the API key or not                            |
-| `prefix`     | `undefined`   | A string prefix for the API key, followed by a period (`.`)       |  
-| `batch`      | `undefined`   | The number of API keys to generate                                |
+| Name       | Default Value | Description                                                     |
+| ---------- | ------------- | --------------------------------------------------------------- |
+| `method`   | `uuidv5`      | To use the `uuidv5` generation method                           |
+| `namespace`| `url`         | The UUID namespace: `url`, `dns`, `oid`, or `x500`              |
+| `name`     | `example.com` | The name for the namespace, e.g., 'example.com' for `url`       |
+| `prefix`   | `undefined`   | A string prefix for the API key, followed by a period (`.`)     |
+| `batch`    | `undefined`   | The number of API keys to generate                              |
 
-Examples:  
+Examples:
 
 ```javascript
 import generateApiKey from 'advanced-key-generator';
 
 // Provide the generation method.
-console.log(generateApiKey({ method: 'uuidv5', name: 'example-name', namespace: '123e4567-e89b-12d3-a456-426614174000' })); // ⇨ '9b8a8090-ccf1-5d08-bd3c-bf0e946f24dc'
-
-// Create an API key without the dashes.
-console.log(generateApiKey({ method: 'uuidv5', name: 'example-name', namespace: '123e4567-e89b-12d3-a456-426614174000', dashes: false })); // ⇨ '9b8a8090ccf15d08bd3cbf0e946f24dc'
+console.log(generateApiKey({ method: 'uuidv5', namespace: 'url', name: 'example.com' })); // ⇨ 'e5f6b3b2-6b3e-533b-bf32-bf5d9b0e8a8a'
 
 // Create an API key with a prefix.
-console.log(generateApiKey({ method: 'uuidv5', name: 'example-name', namespace: '123e4567-e89b-12d3-a456-426614174000', prefix: 'uuid5_' })); // ⇨ 'uuid5_9b8a8090-ccf1-5d08-bd3c-bf0e946f24dc'
+console.log(generateApiKey({ method: 'uuidv5', namespace: 'url', name: 'example.com', prefix: 'test_app' })); // ⇨ 'test_app.e5f6b3b2-6b3e-533b-bf32-bf5d9b0e8a8a'
 
 // Create a batch (certain amount) of API keys.
-console.log(generateApiKey({ method: 'uuidv5', name: 'example-name', namespace: '123e4567-e89b-12d3-a456-426614174000', batch: 3 })); 
+console.log(generateApiKey({ method: 'uuidv5', namespace:
+
+```javascript
+'url', name: 'example.com', batch: 5 }));
 // [
-//   '9b8a8090-ccf1-5d08-bd3c-bf0e946f24dc',
-//   '9b8a8090-ccf1-5d08-bd3c-bf0e946f24dc',
-//   '9b8a8090-ccf1-5d08-bd3c-bf0e946f24dc'
+//   'e5f6b3b2-6b3e-533b-bf32-bf5d9b0e8a8a',
+//   'f6f6b3b2-6b3e-533b-bf32-bf5d9b0e8a8b',
+//   'g7f6b3b2-6b3e-533b-bf32-bf5d9b0e8a8c',
+//   'h8f6b3b2-6b3e-533b-bf32-bf5d9b0e8a8d',
+//   'i9f6b3b2-6b3e-533b-bf32-bf5d9b0e8a8e'
 // ]
 ```
 
-## Security  
+### `sha256` Method
 
-When generating and storing API keys and tokens, always adhere to secure storage best practices. API keys and tokens should be treated like passwords, as they provide access to resources and services.
+Creates an API key/access token using SHA-256 hash generation.
 
-Avoid storing API keys or tokens in plain text. Instead, use secure hashing techniques, such as hashing with a salt or pepper. If API keys are compromised, promptly revoke them and generate new ones.
+| Name     | Default Value | Description                                                     |
+| -------- | ------------- | --------------------------------------------------------------- |
+| `method` | `sha256`      | To use the `sha256` generation method                           |
+| `length` | `64`          | The length of the API key                                       |
+| `prefix` | `undefined`   | A string prefix for the API key, followed by a period (`.`)     |
+| `batch`  | `undefined`   | The number of API keys to generate                              |
+
+Examples:
+
+```javascript
+import generateApiKey from 'advanced-key-generator';
+
+// Provide the generation method.
+console.log(generateApiKey({ method: 'sha256' })); // ⇨ 'f2c2f71b3c3ff0bb6a42a1f22362b01988b0c6e888d3a3c1a66b9d907c6b3459'
+
+// Generate an API key with a specific length.
+console.log(generateApiKey({ method: 'sha256', length: 32 })); // ⇨ 'f2c2f71b3c3ff0bb6a42a1f22362b019'
+
+// Create an API key with a prefix.
+console.log(generateApiKey({ method: 'sha256', prefix: 'test_app' })); // ⇨ 'test_app.f2c2f71b3c3ff0bb6a42a1f22362b01988b0c6e888d3a3c1a66b9d907c6b3459'
+
+// Create a batch (certain amount) of API keys.
+console.log(generateApiKey({ method: 'sha256', batch: 5 }));
+// [
+//   'f2c2f71b3c3ff0bb6a42a1f22362b01988b0c6e888d3a3c1a66b9d907c6b3459',
+//   'e3d3f82c4d4ff1cc7b53b2f33473c12a99c1d7f999e4b4c2b77c0d018d7c456a',
+//   'd4e4g93d5e5ff2dd8c64c3f44584d23b10d2e8fa88f5c5d3b88d1e129e8d567b',
+//   'c5f5h04e6f6ff3ee9d75d4f55695e34c21e3f9fb99g6d6e4c99e2f23af9e678c',
+//   'b6g6i15f707ff4ffae86e5g667a6f45d32f4g0gcdc0f7e7f5d10f4g3b0af789d'
+// ]
+```
+
+### `sha512` Method
+
+Creates an API key/access token using SHA-512 hash generation.
+
+| Name     | Default Value | Description                                                     |
+| -------- | ------------- | --------------------------------------------------------------- |
+| `method` | `sha512`      | To use the `sha512` generation method                           |
+| `length` | `128`         | The length of the API key                                       |
+| `prefix` | `undefined`   | A string prefix for the API key, followed by a period (`.`)     |
+| `batch`  | `undefined`   | The number of API keys to generate                              |
+
+Examples:
+
+```javascript
+import generateApiKey from 'advanced-key-generator';
+
+// Provide the generation method.
+console.log(generateApiKey({ method: 'sha512' })); // ⇨ 'f2c2f71b3c3ff0bb6a42a1f22362b01988b0c6e888d3a3c1a66b9d907c6b3459f2c2f71b3c3ff0bb6a42a1f22362b01988b0c6e888d3a3c1a66b9d907c6b3459'
+
+// Generate an API key with a specific length.
+console.log(generateApiKey({ method: 'sha512', length: 64 })); // ⇨ 'f2c2f71b3c3ff0bb6a42a1f22362b01988b0c6e888d3a3c1a66b9d907c6b3459'
+
+// Create an API key with a prefix.
+console.log(generateApiKey({ method: 'sha512', prefix: 'test_app' })); // ⇨ 'test_app.f2c2f71b3c3ff0bb6a42a1f22362b01988b0c6e888d3a3c1a66b9d907c6b3459f2c2f71b3c3ff0bb6a42a1f22362b01988b0c6e888d3a3c1a66b9d907c6b3459'
+
+// Create a batch (certain amount) of API keys.
+console.log(generateApiKey({ method: 'sha512', batch: 5 }));
+// [
+//   'f2c2f71b3c3ff0bb6a42a1f22362b01988b0c6e888d3a3c1a66b9d907c6b3459f2c2f71b3c3ff0bb6a42a1f22362b01988b0c6e888d3a3c1a66b9d907c6b3459',
+//   'e3d3f82c4d4ff1cc7b53b2f33473c12a99c1d7f999e4b4c2b77c0d018d7c456ae3d3f82c4d4ff1cc7b53b2f33473c12a99c1d7f999e4b4c2b77c0d018d7c456a',
+//   'd4e4g93d5e5ff2dd8c64c3f44584d23b10d2e8fa88f5c5d3b88d1e129e8d567bd4e4g93d5e5ff2dd8c64c3f44584d23b10d2e8fa88f5c5d3b88d1e129e8d567b',
+//   'c5f5h04e6f6ff3ee9d75d4f55695e34c21e3f9fb99g6d6e4c99e2f23af9e678cc5f5h04e6f6ff3ee9d75d4f55695e34c21e3f9fb99g6d6e4c99e2f23af9e678c',
+//   'b6g6i15f707ff4ffae86e5g667a6f45d32f4g0gcdc0f7e7f5d10f4g3b0af789db6g6i15f707ff4ffae86e5g667a6f45d32f4g0gcdc0f7e7f5d10f4g3b0af789d'
+// ]
+```
+
+## Security
+
+Ensure that you keep your API keys secure and do not expose them publicly. Use secure storage solutions such as environment variables or dedicated secrets management services to store and manage your keys.
 
 ## Change Log
 
-See the [CHANGELOG](./CHANGELOG.md) for detailed descriptions of changes and updates.
+See the [CHANGELOG.md](./CHANGELOG.md) file for details about the latest updates and changes.
 
 ## License
 
-This software is licensed under the [MIT License](./LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
 [npm-url]: https://www.npmjs.com/package/advanced-key-generator
 [version-image]: https://img.shields.io/github/package-json/v/Varshneyhars/advanced-key-generator/main?label=version&style=flat-square
