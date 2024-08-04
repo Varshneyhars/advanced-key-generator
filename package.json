@@ -1,0 +1,29 @@
+{
+  "name": "advanced-key-generator",
+  "version": "1.0.0",
+  "description": "A versatile key generation library for creating secure and random keys, including strings, UUIDs, and hashed values.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js",
+    "build": "echo 'Building project...'",
+    "lint": "eslint .",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "key-generator",
+    "uuid",
+    "crypto",
+    "hash",
+    "secure"
+  ],
+  "author": "Hatshit Varshney <info@harshitvarshney.in>",
+  "license": "MIT",
+  "dependencies": {
+    "base32-decode": "^1.0.0",
+    "base32-encode": "^2.0.0",
+    "base32.js": "^0.1.0",
+    "base64url": "^3.0.1",
+    "crypto": "^1.0.1",
+    "uuid": "^10.0.0"
+  }
+}
