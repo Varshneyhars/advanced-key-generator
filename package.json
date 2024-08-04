@@ -1,6 +1,6 @@
 {
   "name": "advanced-key-generator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A versatile library for generating secure and random API keys, including strings, UUIDs, and encoded values.",
   "main": "index.js",
   "scripts": {
