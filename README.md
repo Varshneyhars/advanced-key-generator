@@ -4,8 +4,7 @@
 [![unit tests][tests-image]][tests-url]
 [![Build Status][travis-image]][travis-url]
 [![coverage][coverage-image]][coverage-url]
-[![Coverage Status][coveralls-image]][coveralls-url]
-[![CodeFactor][codefactor-image]][codefactor-url]  
+[![CodeFactor][codefactor-image]][codefactor-url]
 
 `advanced-key-generator` is a library for generating random API (Application Programming Interface) keys or access tokens. By using this library, a Node.js backend service can generate API keys or access tokens, then issue them to users and/or other services that require access to the capabilities and resources provided by the API service.
 
@@ -326,7 +325,8 @@ This software is licensed under the [MIT License](./LICENSE).
 [coverage-url]: https://github.com/Varshneyhars/advanced-key-generator/actions/workflows/coverage.yml
 [coverage-image]: https://github.com/Varshneyhars/advanced-key-generator/actions/workflows/coverage.yml/badge.svg?branch=main
 [codefactor-url]: https://www.codefactor.io/repository/github/Varshneyhars/advanced-key-generator/overview/main
-[codefactor-image]: https://www.codefactor.io/repository/github/Varshneyhars/advanced-key-generator/badge/main
+[codefactor-image]: https://www.codefactor.io/repository/github/varshneyhars/advanced-key-generator/badge
+
 
 ```
 
