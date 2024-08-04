@@ -1,7 +1,7 @@
 {
   "name": "advanced-key-generator",
   "version": "1.0.0",
-  "description": "A versatile key generation library for creating secure and random keys, including strings, UUIDs, and hashed values.",
+  "description": "A versatile library for generating secure and random API keys, including strings, UUIDs, and encoded values.",
   "main": "index.js",
   "scripts": {
     "test": "node test.js",
@@ -18,6 +18,14 @@
   ],
   "author": "Hatshit Varshney <info@harshitvarshney.in>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Varshneyhars/advanced-key-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Varshneyhars/advanced-key-generator/issues"
+  },
+  "homepage": "https://github.com/Varshneyhars/advanced-key-generator#readme",
   "dependencies": {
     "base32-decode": "^1.0.0",
     "base32-encode": "^2.0.0",
