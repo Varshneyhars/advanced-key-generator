@@ -259,12 +259,12 @@ See the [CHANGELOG.md](__./CHANGELOG.md__) file for details about the latest upd
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](__./LICENSE__) file for details.
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
-[npm-url]: __https://www.npmjs.com/package/advanced-key-generator__
-[version-image]: __https://img.shields.io/github/package-json/v/Varshneyhars/advanced-key-generator/main?label=version&style=flat-square__
-[codefactor-url]: __https://www.codefactor.io/repository/github/Varshneyhars/advanced-key-generator/overview/main__
-[codefactor-image]: __https://www.codefactor.io/repository/github/varshneyhars/advanced-key-generator/badge__
+[npm-url]: https://www.npmjs.com/package/advanced-key-generator
+[version-image]: https://img.shields.io/github/package-json/v/Varshneyhars/advanced-key-generator/main?label=version&style=flat-square
+[codefactor-url]: https://www.codefactor.io/repository/github/Varshneyhars/advanced-key-generator/overview/main
+[codefactor-image]: https://www.codefactor.io/repository/github/varshneyhars/advanced-key-generator/badge
 
 
 ```
