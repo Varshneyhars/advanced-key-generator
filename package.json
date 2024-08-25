@@ -44,7 +44,6 @@
   },
   "homepage": "https://github.com/Varshneyhars/advanced-key-generator#readme",
   "dependencies": {
-    "advanced-key-generator": "file:",
     "base32-decode": "^1.0.0",
     "base32-encode": "^2.0.0",
     "base32.js": "^0.1.0",
