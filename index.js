@@ -1,7 +1,8 @@
-const crypto = require('crypto');
-const { v4: uuidv4, v5: uuidv5 } = require('uuid');
-const base32 = require('base32.js');
-const base64url = require('base64url');
+import crypto from 'crypto';
+import { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
+import base32 from 'base32.js';
+import base64url from 'base64url';
+import jwt from 'jsonwebtoken';
 
 const defaultCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -49,7 +50,10 @@ async function generateApiKey(options = {}) {
         pool,
         min,
         max,
-        batch
+        batch,
+        jwtSecret,
+        jwtPayload,
+        jwtOptions
     } = options;
 
     const adjustedLength = min && max ? Math.floor(Math.random() * (max - min + 1)) + min : length;
@@ -93,6 +97,12 @@ async function generateApiKey(options = {}) {
             case 'sha512':
                 result = hashData(entropySource(adjustedLength), method);
                 break;
+            case 'jwt':
+                if (!jwtSecret || !jwtPayload) {
+                    throw new Error('JWT secret and payload are required');
+                }
+                result = jwt.sign(jwtPayload, jwtSecret, jwtOptions);
+                break;
             default:
                 throw new Error('Invalid method');
         }
@@ -113,12 +123,22 @@ async function generateApiKey(options = {}) {
     }
 
     const apiKey = await generateKey();
+    let expiresAt;
+
+    if (method === 'jwt') {
+        const decoded = jwt.decode(apiKey);
+        if (decoded && decoded.exp) {
+            expiresAt = decoded.exp * 1000; // Convert from seconds to milliseconds
+        }
+    } else if (expiresIn) {
+        expiresAt = Date.now() + expiresIn;
+    }
+
     return {
         apiKey: `${prefix}${apiKey}${suffix}`,
-        expiresAt: expiresIn ? Date.now() + expiresIn : undefined
+        expiresAt
     };
 }
-
 
 function verifyKey(apiKey, options) {
     if (!apiKey) return false;
@@ -169,6 +189,13 @@ function verifyKey(apiKey, options) {
             case 'base64':
                 const base64Pattern = /^[a-zA-Z0-9+/]+={0,2}$/;
                 return base64Pattern.test(apiKey);
+            case 'jwt':
+                try {
+                    jwt.verify(apiKey, options.jwtSecret);
+                    return true;
+                } catch (err) {
+                    return false;
+                }
             default:
                 return false;
         }
@@ -177,9 +204,50 @@ function verifyKey(apiKey, options) {
     return true;
 }
 
-function isExpired(apiKeyObject) {
-    if (!apiKeyObject || apiKeyObject.expiresAt === undefined) return false;
-    return Date.now() > apiKeyObject.expiresAt;
+// Function to determine if the key is a JWT based on its structure
+function isJwt(apiKey) {
+    // Simple check for JWT format (three parts separated by dots)
+    return typeof apiKey === 'string' && apiKey.split('.').length === 3;
 }
 
-module.exports = { generateApiKey, verifyKey, isExpired };
+function isExpired(apiKeyObject) {
+    if (!apiKeyObject) return true; // Invalid API key object
+
+    // Handle JWTs
+    if (apiKeyObject.apiKey && isJwt(apiKeyObject.apiKey)) {
+        try {
+            // Decode the JWT to check its expiration
+            const decoded = jwt.decode(apiKeyObject.apiKey, { complete: true });
+
+            if (decoded && decoded.payload && decoded.payload.exp) {
+                // Check if the current time is past the expiration time
+                return Date.now() >= decoded.payload.exp * 1000;
+            }
+
+            // If there is no 'exp' claim, we cannot determine expiration
+            return true; // Treat as expired if no 'exp' claim
+        } catch (err) {
+            // Handle errors (e.g., invalid token format)
+            console.error('Error decoding JWT:', err);
+            return true; // Treat as expired if decoding fails
+        }
+    }
+
+    // Handle non-JWT keys with 'expiresAt' property
+    if (apiKeyObject.expiresAt !== undefined) {
+        // Ensure expiresAt is in milliseconds
+        if (typeof apiKeyObject.expiresAt === 'number') {
+            return Date.now() >= apiKeyObject.expiresAt;
+        }
+        // If expiresAt is in seconds, convert to milliseconds
+        if (typeof apiKeyObject.expiresAt === 'number') {
+            return Date.now() >= apiKeyObject.expiresAt * 1000;
+        }
+    }
+
+    // Default to false if no expiration check is applicable
+    return false;
+}
+
+export { generateApiKey, verifyKey, isExpired };
+    

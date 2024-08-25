@@ -1,5 +1,6 @@
-const { generateApiKey, verifyKey, isExpired } = require('./index');
-const { v4: uuidv4 } = require('uuid');
+import { generateApiKey, verifyKey, isExpired } from './index.js';
+import { v4 as uuidv4 } from 'uuid';
+
 
 async function runTests() {
     const testCases = [
@@ -35,7 +36,11 @@ async function runTests() {
         // Batch cases
         { method: 'string', length: 16, batch: 3 },
         { method: 'uuidv4', batch: 2 },
-        { method: 'sha256', batch: 2 }
+        { method: 'sha256', batch: 2 },
+
+        // JWT cases
+        { method: 'jwt', jwtSecret: 'your-secret-key', jwtPayload: { userId: 123, role: 'admin' }, jwtOptions: { expiresIn: '1s' } },
+        { method: 'jwt', jwtSecret: 'your-secret-key', jwtPayload: { userId: 456, role: 'user' }, jwtOptions: { expiresIn: '2s' } }
     ];
 
     for (const testCase of testCases) {
@@ -48,24 +53,24 @@ async function runTests() {
             if (Array.isArray(generatedKeys)) {
                 for (const keyObj of generatedKeys) {
                     const { apiKey, expiresAt } = keyObj;
-                    const isValid = await verifyKey(apiKey, testCase.method, testCase.charset);
+                    const isValid = await verifyKey(apiKey, { ...testCase, apiKey });
                     console.log(`Key: ${apiKey}, Is valid: ${isValid}`);
 
                     if (expiresAt) {
                         console.log(`Is API Key expired? ${isExpired({ apiKey, expiresAt })}`);
-                        await new Promise(resolve => setTimeout(resolve, 3000)); // Wait for additional 3 seconds
+                        await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for additional 3 seconds
                         console.log(`Is API Key expired after more time? ${isExpired({ apiKey, expiresAt })}`);
                     }
                 }
             } else {
-                const isValid = await verifyKey(generatedKeys, testCase.method, testCase.charset);
-                console.log(`Key: ${generatedKeys}, Is valid: ${isValid}`);
+                const isValid = await verifyKey(generatedKeys.apiKey, { ...testCase, apiKey: generatedKeys.apiKey });
+                console.log(`Key: ${generatedKeys.apiKey}, Is valid: ${isValid}`);
                 
                 if (testCase.expiresIn) {
                     const expiresAt = Date.now() + testCase.expiresIn;
-                    console.log(`Is API Key expired? ${isExpired({ apiKey: generatedKeys, expiresAt })}`);
-                    await new Promise(resolve => setTimeout(resolve, 3000)); // Wait for additional 3 seconds
-                    console.log(`Is API Key expired after more time? ${isExpired({ apiKey: generatedKeys, expiresAt })}`);
+                    console.log(`Is API Key expired? ${isExpired({ apiKey: generatedKeys.apiKey, expiresAt })}`);
+                    await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for additional 3 seconds
+                    console.log(`Is API Key expired after more time? ${isExpired({ apiKey: generatedKeys.apiKey, expiresAt })}`);
                 }
             }
 

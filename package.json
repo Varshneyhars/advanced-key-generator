@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "description": "A versatile library for generating secure and random API keys, including strings, UUIDs, and encoded values.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "node test.js",
     "build": "echo 'Building project...'",
@@ -14,7 +15,23 @@
     "uuid",
     "crypto",
     "hash",
-    "secure"
+    "secure",
+    "api-key",
+    "token",
+    "authentication",
+    "encryption",
+    "random",
+    "base32",
+    "base64",
+    "jwt",
+    "uuidv4",
+    "uuidv5",
+    "hashing",
+    "random-string",
+    "security",
+    "authorization",
+    "password",
+    "unique-id"
   ],
   "author": "Hatshit Varshney <info@harshitvarshney.in>",
   "license": "MIT",
@@ -27,11 +44,12 @@
   },
   "homepage": "https://github.com/Varshneyhars/advanced-key-generator#readme",
   "dependencies": {
+    "advanced-key-generator": "file:",
     "base32-decode": "^1.0.0",
     "base32-encode": "^2.0.0",
     "base32.js": "^0.1.0",
     "base64url": "^3.0.1",
-    "crypto": "^1.0.1",
+    "jsonwebtoken": "^9.0.2",
     "uuid": "^10.0.0"
   }
 }
